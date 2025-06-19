@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hasil Klasifikasi Padi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        .result-card {
+            border-radius: 15px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .img-preview {
+            max-height: 300px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-success">🌾 Hasil Klasifikasi Padi</h2>
+            <p class="text-muted">Berikut adalah hasil klasifikasi dari gambar yang telah Anda upload.</p>
+        </div>
+
+        <div class="result-card mx-auto" style="max-width: 800px;">
+            <div class="row g-4">
+                <div class="col-md-6 text-center">
+                    <h6 class="text-muted mb-2">Gambar Asli</h6>
+                    <img src="{{ url_for('static', filename='uploads/' + filename) }}" class="img-fluid img-preview">
+                </div>
+                <div class="col-md-6 text-center">
+                    <h6 class="text-muted mb-2">Deteksi Tepi</h6>
+                    <img src="{{ url_for('static', filename='edges/' + edge_filename) }}" class="img-fluid img-preview">
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <h4 class="text-primary">📌 Prediksi: <span class="text-dark">{{ result }}</span></h4>
+            </div>
+
+            <div class="mt-4">
+                <h5 class="fw-bold">📊 Fitur GLCM yang Digunakan:</h5>
+                <table class="table table-bordered mt-2">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fitur</th>
+                            <th>Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in glcm.items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value | round(4) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="/" class="btn btn-outline-success">🔁 Upload Gambar Lain</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
